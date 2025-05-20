@@ -1,11 +1,14 @@
 services:
   worker_management_service:
     image: 'worker_management_service:latest'
+    networks:
+      - backend-network
+      - pdf_microservice_arch
     ports:
-      - '192.168.0.20:8080:8080'
-      - '192.168.0.20:5005:5005'
+      - '0.0.0.0:8080:8080'
+      - '0.0.0.0:5005:5005'
     environment:
-      - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://microservice-arch-eureka-1:8761/eureka/'
+      - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://job-service-eureka-1:8761/eureka/'
       - 'PAGES_PER_JOB=10'
     depends_on:
       eureka:
@@ -13,24 +16,29 @@ services:
 
   worker_service:
     image: "worker_service:latest"
+    networks:
+      - backend-network
     deploy:
       replicas: 3
       restart_policy:
         condition: always
     ports:
-      - '192.168.0.20:5006:5005'
+      - '0.0.0.0:5006:5005'
     environment:
       - 'SPRING_PROFILES_ACTIVE=default'
       - 'SPRING_APPLICATION_NAME=WorkerServiceNode'
-      - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://microservice-arch-eureka-1:8761/eureka/'
+      - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://job-service-eureka-1:8761/eureka/'
     depends_on:
       eureka:
         condition: service_healthy
 
   eureka:
     image: "eureka_instance:latest"
+    networks:
+      - backend-network
+      - pdf_microservice_arch
     ports:
-      - '192.168.0.20:8761:8761'
+      - '0.0.0.0:8761:8761'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8761" ]
       interval: 10s
@@ -39,9 +47,17 @@ services:
 
   rabbitmq:
     image: 'rabbitmq:3-management'
+    networks:
+      - backend-network
     environment:
       - 'RABBITMQ_DEFAULT_PASS=secret'
       - 'RABBITMQ_DEFAULT_USER=myuser'
     ports:
       - '5672:5672'
-      - '192.168.0.20:15672:15672'
+      - '0.0.0.0:15672:15672'
+
+networks:
+  pdf_microservice_arch:
+    external: true
+  backend-network:
+    external: false

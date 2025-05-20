@@ -5,6 +5,6 @@ parts/build-maven.sh
 parts/build-docker.sh
 echo "Finished building!"
 
-cd ../Microservice-Arch
+cd ../job-service
 docker-compose down
 docker-compose up --build

@@ -5,8 +5,8 @@ echo "Building Docker images"
 
 # Define modules with corresponding Docker tags
 declare -A MODULE_TAGS=(
-    ["../../WorkerManagementService"]="worker_management_service:latest"
-    ["../../WorkerServiceNode"]="worker_service:latest"
+    ["../../PDF-Microservices-Worker-Management-Service"]="worker_management_service:latest"
+    ["../../PDF-Microservices-Worker-Service"]="worker_service:latest"
 )
 
 for module in "${!MODULE_TAGS[@]}"; do
@@ -15,7 +15,7 @@ for module in "${!MODULE_TAGS[@]}"; do
     echo "Building Docker image for $module with tag $tag..."
 
     # Check if a Dockerfile exists before attempting the build
-    if [[ -f "$module/Dockerfile" ]]; then
+    if [[ -f "$module/dockerfile" ]]; then
         (cd "$module" && docker build -t "$tag" .)
         echo "Docker image $tag built successfully!"
     else

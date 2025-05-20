@@ -3,7 +3,7 @@ set -e
 
 echo "Building modules"
 
-MODULES=("../../PDFMicroserviceLib" "../../WorkerLib" "../../WorkerManagementService" "../../WorkerServiceNode")
+MODULES=("../../PDF-Microservices-Main-Libary" "../../PDF-Microservices-Worker-Libary" "../../PDF-Microservices-Worker-Management-Service" "../../PDF-Microservices-Worker-Service")
 
 for module in "${MODULES[@]}"; do
     echo "Building $module..."
