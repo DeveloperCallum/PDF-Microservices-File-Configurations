@@ -1,6 +1,11 @@
 services:
   worker_management_service:
-    image: 'worker_management_service:latest'
+    build:
+      context: ../..
+      dockerfile: "../PDF-Microservices/PDF-Microservices-Worker-Management-Service/dockerfile"
+      tags:
+        - worker_management_service:latest
+        #    image: 'worker_management_service:latest'
     networks:
       - backend-network
       - pdf_microservice_arch
@@ -15,7 +20,12 @@ services:
         condition: service_healthy
 
   worker_service:
-    image: "worker_service:latest"
+    build:
+      context: ../..
+      dockerfile: "../PDF-Microservices/PDF-Microservices-Worker-Service/dockerfile"
+      tags:
+        - worker_service:latest
+        #    image: "worker_service:latest"
     networks:
       - backend-network
     deploy:
@@ -33,7 +43,12 @@ services:
         condition: service_healthy
 
   eureka:
-    image: "eureka_instance:latest"
+    build:
+      context: ../..
+      dockerfile: "../PDF-Microservices/PDF-Microservices-Eukrea/dockerfile"
+      tags:
+        - eureka_instance:latest
+        #    image: "eureka_instance:latest"
     networks:
       - backend-network
       - pdf_microservice_arch
