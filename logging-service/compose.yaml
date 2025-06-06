@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  loki:
+    image: grafana/loki:latest
+    networks:
+      - logging-internal-connector
+      - backend-logging-connector
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./loki-config.yml:/etc/loki/loki-config.yml
+  promtail:
+    image: grafana/promtail:latest
+    networks:
+      - logging-internal-connector
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/promtail-config.yml
+  grafana:
+    image: grafana/grafana
+    networks:
+      - logging-internal-connector
+    ports:
+      - "3000:3000"
+
+networks:
+  backend-logging-connector:
+    external: true
+  logging-internal-connector:
+    external: false

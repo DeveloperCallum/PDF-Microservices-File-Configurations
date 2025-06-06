@@ -9,6 +9,7 @@ services:
     networks:
       - backend-network
       - pdf_microservice_arch
+      - backend-logging-connector
     ports:
       - '0.0.0.0:8080:8080'
       - '0.0.0.0:5005:5005'
@@ -33,7 +34,7 @@ services:
       restart_policy:
         condition: always
     ports:
-      - '0.0.0.0:5006:5005'
+      - '5003-5006'
     environment:
       - 'SPRING_PROFILES_ACTIVE=default'
       - 'SPRING_APPLICATION_NAME=WorkerServiceNode'
@@ -76,3 +77,5 @@ networks:
     external: true
   backend-network:
     external: false
+  backend-logging-connector:
+    external: true
