@@ -11,8 +11,8 @@ services:
       - pdf_microservice_arch
       - backend-logging-connector
     ports:
-      - '0.0.0.0:8080:8080'
-      - '0.0.0.0:5005:5005'
+      - '8080:8080'
+      - '5005:5005'
     environment:
       - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://job-service-eureka-1:8761/eureka/'
       - 'PAGES_PER_JOB=10'
@@ -30,11 +30,11 @@ services:
     networks:
       - backend-network
     deploy:
-      replicas: 3
+      replicas: 1
       restart_policy:
         condition: always
     ports:
-      - '5003-5006'
+      - '6000:6000'
     environment:
       - 'SPRING_PROFILES_ACTIVE=default'
       - 'SPRING_APPLICATION_NAME=WorkerServiceNode'
@@ -54,7 +54,7 @@ services:
       - backend-network
       - pdf_microservice_arch
     ports:
-      - '0.0.0.0:8761:8761'
+      - '8761:8761'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8761" ]
       interval: 10s
@@ -70,7 +70,7 @@ services:
       - 'RABBITMQ_DEFAULT_USER=myuser'
     ports:
       - '5672:5672'
-      - '0.0.0.0:15672:15672'
+      - '15672:15672'
 
 networks:
   pdf_microservice_arch:
