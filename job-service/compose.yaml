@@ -16,6 +16,7 @@ services:
     environment:
       - 'EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://job-service-eureka-1:8761/eureka/'
       - 'SELECTIONS_PER_JOB=10'
+      - 'PAGES_PER_JOB=5'
       - 'EUREKA_INSTANCE_LEASE_RENEWAL_INTERVAL_IN_SECONDS=5'
       - 'EUREKA_INSTANCE_LEASE_EXPIRATION_DURATION_IN_SECONDS=10'
     depends_on:
