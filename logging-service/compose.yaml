@@ -9,12 +9,6 @@ services:
       - "3100:3100"
     volumes:
       - ./loki-config.yml:/etc/loki/loki-config.yml
-  promtail:
-    image: grafana/promtail:latest
-    networks:
-      - logging-internal-connector
-    volumes:
-      - ./promtail-config.yml:/etc/promtail/promtail-config.yml
   grafana:
     image: grafana/grafana
     networks:
